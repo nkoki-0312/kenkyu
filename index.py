@@ -1,10 +1,12 @@
 import keyboard
 import time
 
-input_text = [{'key':'', 'timestamp':0.0}]
+input_text = []
+
+print("文字を入力してください")
 
 # 値取得
-i = 1
+i = 0
 while True:
   input_key = keyboard.read_key()
   if input_key != "":
@@ -14,12 +16,18 @@ while True:
     print(f"{i}: {input_text[i]}")
     i += 1
 
-print(input_text)
-before_after_pair = {}
+print("----------")
+print("結果")
+before_timestamp = 0.0
+text = ""
 for i, data in enumerate(input_text):
-  if i == 0:
-    continue
-  before_key = data[i-1]['key']
-  current_key = data[i]['key']
-  timestamp = data[i]['timestamp']
-  print(f"{before_key}, {current_key}, {timestamp}")
+  current_key = data['key']
+  timestamp = data['timestamp']
+  print(f"{current_key}, {timestamp-before_timestamp}")
+  before_timestamp = timestamp
+  if i % 2 == 0:
+    text += current_key
+
+print("----------")
+print("入力された文字")
+print(text)
