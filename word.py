@@ -1,9 +1,6 @@
 # === 特定のファイルを句点(。)で区切る ===
-# - 必要に応じてファイル名を変えること。
 # - 必要に応じてreplaceを増やすこと。
-def separate():
-  input = './merosu.txt'
-  output = './merosu.csv'
+def separate(input, output):
   with open(input, mode='r', encoding='utf-8') as rf:
     with open(output, mode='w', encoding='utf-8') as wf:
       text = rf.read()
@@ -15,5 +12,8 @@ def separate():
       wf.write(text)
 
 if __name__ == '__main__':
+  input = './merosu.txt'
+  output = './merosu.csv'
+
   # 文章を句点(。)で区切る
-  separate()
+  separate(input, output)
