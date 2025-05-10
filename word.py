@@ -1,5 +1,4 @@
 # === 特定のファイルを句点(。)で区切る ===
-# - 必要に応じてreplaceを増やすこと。
 def separate(input, output):
   with open(input, mode='r', encoding='utf-8') as rf:
     with open(output, mode='w', encoding='utf-8') as wf:
@@ -11,9 +10,23 @@ def separate(input, output):
       text = text.replace('。', '\n')
       wf.write(text)
 
+# === n文字以上の文章を除外 ===
+def length_saver(input, output):
+  with open(input, mode='r', encoding='utf-8') as rf:
+    with open(output, mode='w', encoding='utf-8') as wf:
+      while True:
+        text = rf.readline()
+        if text == '':
+          break
+        if len(text) <= 20:
+          wf.write(text)
+
 if __name__ == '__main__':
-  input = './merosu.txt'
-  output = './merosu.csv'
+  input = './merosu.csv'
+  output = './merosu_short.csv'
 
   # 文章を句点(。)で区切る
-  separate(input, output)
+  # separate(input, output)
+
+  # 20文字以上の文章を除外
+  length_saver(input, output)
