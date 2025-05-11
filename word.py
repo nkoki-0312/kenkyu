@@ -1,3 +1,5 @@
+from pykakasi import kakasi
+
 # === 特定のファイルを句点(。)で区切る ===
 def separate(input, output):
   with open(input, mode='r', encoding='utf-8') as rf:
