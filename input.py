@@ -3,9 +3,10 @@ import time
 import random
 import os
 
-QUESTION_NUM = 1   # 文章を入力する回数
-input_data = []     # 入力されたデータ
-text = []           # 入力するテキスト(漢字、ひらがな、ローマ字の順)
+QUESTION_NUM = 10                                     # 文章を入力する回数
+input_data = []                                       # 入力されたデータ
+text = []                                             # 入力するテキスト(漢字、ひらがな、ローマ字の順)
+save_file = './datas/' + str(time.time()) + '.csv'    # 入力情報を保存
 
 # 入力指示を表示する関数
 def display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num):
@@ -59,6 +60,7 @@ while True:
           question_cnt += 1
           text_cnt = 0
           text_num = random.randint(0, len(text))
+          input_data.append({'key': 'change', 'timestamp':time.time()})  # 文章が変わるタイミング
           display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num)
 
 # 結果を表示
@@ -66,13 +68,17 @@ print("----------")
 print("結果")
 before_timestamp = 0.0
 text = ""
-for i, data in enumerate(input_data):
-  current_key = data['key']
-  timestamp = data['timestamp']
-  print(f"{current_key}, {timestamp-before_timestamp}")
-  before_timestamp = timestamp
-  # if i % 2 == 0:
-  text += current_key
+with open(save_file, mode='w', encoding='utf-8') as f:
+  for i, data in enumerate(input_data):
+    # コンソールに表示
+    current_key = data['key']
+    timestamp = data['timestamp']
+    print(f"{current_key}, {timestamp-before_timestamp}")
+    before_timestamp = timestamp
+    text += current_key
+
+    # ファイルに保存
+    f.write(f"{current_key},{timestamp}\n")
 
 print("----------")
 print("入力された文字")
