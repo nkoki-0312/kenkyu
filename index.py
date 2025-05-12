@@ -3,6 +3,7 @@ import time
 import random
 import os
 
+QUESTION_NUM = 3   # 文章を入力する回数
 input_data = []     # 入力されたデータ
 text = []           # 入力するテキスト(漢字、ひらがな、ローマ字の順)
 
@@ -23,7 +24,8 @@ with open('merosu_short.csv', mode='r', encoding='utf-8') as f:
         })
 
 # 入力処理
-i = 0                                   # 入力文字数
+question_cnt = 1                        # 現在の問題番号
+text_cnt = 0                            # 入力文字数
 text_num = random.randint(0, len(text)) # 入力する文章(とりあえずランダム)
 print(f"　入力　： { text[text_num]['kanji'] }")
 print(f"　かな　： { text[text_num]['kana'] }")
@@ -36,18 +38,30 @@ while True:
       break
 
     # 正しい入力だった場合、結果を保存
-    if input_key == text[text_num]['rome'][i]:
-      i += 1
+    if input_key == text[text_num]['rome'][text_cnt]:
+      text_cnt += 1
       os.system('cls')
-      print(f"表示された文字を入力してください。")
+      print(f"[{ question_cnt }/{ QUESTION_NUM }] 表示された文字を入力してください。")
       print(f"　入力　： { text[text_num]['kanji'] }")
       print(f"　かな　： { text[text_num]['kana'] }")
       print(f"ローマ字： { text[text_num]['rome'] }")
-      print("　　　　　 " + ( "-" * i ))
+      print("　　　　　 " + ( "-" * text_cnt ))
       input_data.append({'key':input_key, 'timestamp':time.time()})
       
-      if i >= len(text[text_num]['rome']):
-        break
+      if text_cnt >= len(text[text_num]['rome']):
+        if question_cnt == QUESTION_NUM:
+          # 事前に登録された回数の文章を入力し終わった場合、ループを抜けて結果を表示する
+          break
+        else:
+          # 事前に登録された回数の文章を入力し終わっていな場合、新しい文章を表示する
+          question_cnt += 1
+          text_cnt = 0
+          text_num = random.randint(0, len(text))
+          os.system('cls')
+          print(f"[{ question_cnt }/{ QUESTION_NUM }] 表示された文字を入力してください。")
+          print(f"　入力　： { text[text_num]['kanji'] }")
+          print(f"　かな　： { text[text_num]['kana'] }")
+          print(f"ローマ字： { text[text_num]['rome'] }")
 
 # 結果を表示
 print("----------")
