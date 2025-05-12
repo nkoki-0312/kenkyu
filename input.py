@@ -78,7 +78,7 @@ with open(save_file, mode='w', encoding='utf-8') as f:
     text += current_key
 
     # ファイルに保存
-    f.write(f"{current_key}, {timestamp}\n")
+    f.write(f"{current_key},{timestamp}\n")
 
 print("----------")
 print("入力された文字")
