@@ -3,16 +3,17 @@ import time
 import random
 import os
 
-QUESTION_NUM = 10                                                   # 文章を入力する回数
+QUESTION_NUM = 2                                                   # 文章を入力する回数
 input_data_all = []                                                 # 入力された全てのデータ
 input_data = []                                                     # 入力されたデータ
+chose_merosu_file = ''                                              # 選択されたローマ字タイプのメロス
+rome_type = ''                                                      # 選択されたローマ字タイプ
 text = []                                                           # 入力するテキスト(漢字、ひらがな、ローマ字の順)
 text_lst = []                                                       # 実際に使用したテキスト群
 save_file_timestamp = str(time.time())                              # 保存するファイルに使用するタイムスタンプ
 save_file = './datas/input_' + save_file_timestamp + '.csv'         # 入力情報を保存
 save_file_all = './datas/all_' + save_file_timestamp + '.csv'       # すべての入力情報を保存
 save_file_text = './datas/text_' + save_file_timestamp + '.csv'     # 使用したテキストを保存する
-
 
 # 入力指示を表示する関数
 def display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num):
@@ -23,10 +24,23 @@ def display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num):
   print(f"ローマ字： { text[text_num]['rome'] }")
   print("　　　　　 " + ( "-" * text_cnt ))
 
+# まず、ローマ字タイプを選択する
+print("ローマ字タイプを選択してください")
+while True:
+  rome_type = input("a or b: ")
+  if rome_type == 'a':
+    chose_merosu_file = 'merosu_short_rome_a.csv'
+    break
+  elif rome_type == 'b':
+    chose_merosu_file = 'merosu_short_rome_b.csv'
+    break
+  else:
+    print("aかbを入力してください")
+    
 # メロスデータを読み込み
 with open('merosu_short.csv', mode='r', encoding='utf-8') as f:
   with open('merosu_short_kana.csv', mode='r', encoding='utf-8') as kf:
-    with open('merosu_short_rome.csv', mode='r', encoding='utf-8') as rf:
+    with open(chose_merosu_file, mode='r', encoding='utf-8') as rf:
       while True:
         kanji = f.readline()
         kana = kf.readline()
@@ -82,9 +96,7 @@ with open(save_file_all, mode='w', encoding='utf-8') as f:
   for i in range(len(input_data_all)):
     f.write(f"{input_data_all[i]['key']},{input_data_all[i]['timestamp']}\n")
 
-# 結果を表示
-print("----------")
-print("結果")
+# 結果を保存
 before_timestamp = 0.0
 text = ""
 with open(save_file, mode='w', encoding='utf-8') as f:
@@ -92,13 +104,12 @@ with open(save_file, mode='w', encoding='utf-8') as f:
     # コンソールに表示
     current_key = data['key']
     timestamp = data['timestamp']
-    print(f"{current_key}, {timestamp-before_timestamp}")
+    # print(f"{current_key}, {timestamp-before_timestamp}")
     before_timestamp = timestamp
     text += current_key
 
     # ファイルに保存
     f.write(f"{current_key},{timestamp}\n")
 
-print("----------")
-print("入力された文字")
-print(text)
+os.system('cls')
+print("ご協力ありがとうございました！")
