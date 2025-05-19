@@ -3,7 +3,7 @@ import time
 import random
 import os
 
-QUESTION_NUM = 2                                                   # 文章を入力する回数
+QUESTION_NUM = 50                                                   # 文章を入力する回数
 input_data_all = []                                                 # 入力された全てのデータ
 input_data = []                                                     # 入力されたデータ
 chose_merosu_file = ''                                              # 選択されたローマ字タイプのメロス
@@ -25,8 +25,11 @@ def display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num):
   print("　　　　　 " + ( "-" * text_cnt ))
 
 # まず、ローマ字タイプを選択する
-print("ローマ字タイプを選択してください")
+os.system('cls')
 while True:
+  print("ローマ字タイプを選択してください。aかbを入力後にEnterを押すことで進めます。\n")
+  print("a: し=>shi, ち=>chi, つ=>tsu, ふ=>fu, じ=>ji, じゃ=>ja")
+  print("b: し=>si,  ち=>ti,  つ=>tu,  ふ=>hu, じ=>zi, じゃ=>zya\n")
   rome_type = input("a or b: ")
   if rome_type == 'a':
     chose_merosu_file = 'merosu_short_rome_a.csv'
@@ -35,7 +38,10 @@ while True:
     chose_merosu_file = 'merosu_short_rome_b.csv'
     break
   else:
-    print("aかbを入力してください")
+    os.system('cls')
+    print("------------------------------")
+    print("| ! aかbを入力してください ! |")
+    print("------------------------------")
     
 # メロスデータを読み込み
 with open('merosu_short.csv', mode='r', encoding='utf-8') as f:
@@ -112,4 +118,5 @@ with open(save_file, mode='w', encoding='utf-8') as f:
     f.write(f"{current_key},{timestamp}\n")
 
 os.system('cls')
+print("./datasディレクトリに生成されたファイルをSlackで \"野中航希\" に送信してください。")
 print("ご協力ありがとうございました！")
