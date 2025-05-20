@@ -14,10 +14,12 @@ save_file_timestamp = str(time.time())                              # 保存す�
 save_file = './datas/input_' + save_file_timestamp + '.csv'         # 入力情報を保存
 save_file_all = './datas/all_' + save_file_timestamp + '.csv'       # すべての入力情報を保存
 save_file_text = './datas/text_' + save_file_timestamp + '.csv'     # 使用したテキストを保存する
+text_list = []                                                      # 出題された問題のリスト
 
 # 入力指示を表示する関数
 def display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num):
   os.system('cls')
+  print(text_num)
   print(f"[{ question_cnt }/{ QUESTION_NUM }] 表示された文字を入力してください。")
   print(f"　入力　： { text[text_num]['kanji'] }")
   print(f"　かな　： { text[text_num]['kana'] }")
@@ -87,7 +89,10 @@ while True:
           # 事前に登録された回数の文章を入力し終わっていな場合、新しい文章を表示する
           question_cnt += 1
           text_cnt = 0
-          text_num = random.randint(0, len(text))
+          while True:
+            text_num = random.randint(0, len(text))
+            if text_num not in text_list:
+              break
           input_data.append({'key': 'change', 'timestamp':time.time()})  # 文章が変わるタイミング
           display_guide(QUESTION_NUM, question_cnt, text_cnt, text_num)
           text_lst.append(text[text_num]['kanji'])
